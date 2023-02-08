@@ -42,4 +42,15 @@ const requestHandler = (req, res) => {
   res.end();
 };
 
-module.exports = requestHandler;
+//1. method to export
+//modele.export = requestHandler
+
+//2. method to export
+
+module.exports = {
+  handler: requestHandler,
+  someText: "Some hard coded text",
+};
+
+// module.exports.handler = requestHandler;
+// module.exports.someText = "Some hard coded Text";
