@@ -1,0 +1,146 @@
+Project
+
+Parsing incoming request
+
+Validating user input
+
+NPM repository- that is a cloud package repository
+
+Third party package that helps us to save automatically without restarting our server---
+for this autostart maechanism package called == nodemon
+npm install nodemon
+
+Packages which you install can be divided into development packages, so packages which mostly helps you during development and production dependencies
+so packages that helps you for the app as it's running on a server,
+
+nodemon would be a development dependency because we only use it during development process
+
+npm install nodemon --save      = this would install it as a production dependency
+npm install nodemon --save-dev  = this only adds something we used during development
+npm install nodemon -g          = not install in this project but globally on your machine
+
+install express.Js  = npm install --save express
+--save = used in a production dependency
+
+--save-dev = used tool during development 
+
+Middleware means that an incoming request automatically funneled through a bunch of functions by express.js
+
+
+
+Framework: Helper functions, tools and rules that help you build your application!
+
+
+Send File or to serve a HTML page we use
+sendFile()   =   send back a file to the user
+
+an absolute path would be correct but / like this actually refers to our root folder on our operating system not to this project folder.
+
+so in order to construct path to the directory and to the file, we can use a feature provided by node.js another core module.
+
+const path = reqiuring('path')    => we can send the with the help of path create by this module by calling th join() method.
+
+
+
+res.sendFile(path.join(__dirname,'views', 'shop.html'));
+it works on both linux and windows system
+Path join basically detects the operating system you are running on and then automatically builds the correct path.
+
+router.get("/", (req, res, next) => {
+  res.sendFile(path.join(__dirname, "../", "views", "shop.html"));
+});
+
+const path = require('path')   => to get the file location 
+
+
+USING A HELPER FUNCTION FOR NAVIGATION
+
+dirname()   = return the directory name of a path
+
+
+const path = require("path");
+
+module.exports = path.dirname(process.mainModule.filename);
+this gives us the path to the file that is responsible for the fact that our application is running
+and this filename is what we put into dirname to get a path to that directory.
+
+
+STYLING OUR PAGES ==== CSS
+
+SERVING FILES STATISCALLY
+
+we need to be serve file statically and statically means not handled not handled by the express router or some othe middleware but instead directly forwarde to the file system
+ 
+And for this, we register a new middleware with app use and this is one express.js ships with, we use express object itself and this does have a static middleware and this is a built in middleware
+
+app.use(express.static(path.join(__dirname, "public")));
+
+MODULE SUMMARY
+Express.js == is node.js framework - a package that adds a bunch of utility functions that adds a bunch of utility functions and tools and a clear set of rules on how the apps should be built (middleware)
+It's highly extensible and other packages can be plugged into it(middleware) 
+
+MIDDLEWARE, next() and res()
+Express.js relies heavily on middleware functions- you can easily add them by calling use()
+Middleware functions handle a request and should call next() to forward the request to the next function in line or send a response
+
+
+ROUTING
+you can filter request by path and method
+if you filter by method,paths are matched exactly, otherwise, the first segment of URL is matched
+You can use the express.Router to split your routes across files elegantly
+
+SERVE FILES
+you are not limited to serving DUMMY text as a response
+You can sendFile()s to your user - e.g. HTML files
+If a request is directly made for a file (e.g. a .css file is requested), you can enable static serving for such files via express.static()
+
+
+WORKING WITH DYNAMIC CONTENT AND ADDING TEMPLATING ENGINES
+
+Managing Data(without a Database)
+Render Dynamic Content in our views
+Understanding Templating Engines
+
+SHaring Data Across Request And Users
+
+Templating Engines
+
+Available Templating Engines
+
+EJS          <p><%=name %></p>      Use normal HTML and plain javascript in your templates
+
+Pug           p  #{name}            Use minimal HTML and custom template language 
+ 
+Handlebars   <p>{{ name }}</p>      Use normal HTML and custom template language
+
+
+
+Installing and Implementing Pug
+
+Install all three
+
+npm install --save ejs pug express-handlebars        =   production dependency
+
+you can install multiple packages by simply repeating or by adding all the names after npm install 
+
+
+
+PUG
+
+app.set();     = app.set() allows us to set any value globally on our express application
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
