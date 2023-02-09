@@ -130,8 +130,9 @@ PUG
 app.set();     = app.set() allows us to set any value globally on our express application
 
 
+ADDING A LAYOUT
 
-
+Use Dynamic Content from temlating engines
 
 
 
