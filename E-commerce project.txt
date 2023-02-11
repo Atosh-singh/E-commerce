@@ -134,11 +134,26 @@ ADDING A LAYOUT
 
 Use Dynamic Content from temlating engines
 
+WORKING WITH HANDLEBARS
+
+Due to a (temporary) breaking change introduced by the library authors (of the package we'll install in the next lecture), make sure you run 
+    npm install --save express-handlebars@3.0
+
+app.engine = engine method this registers a new templating engine in case we're using one which is not built-in, pug was built-in kind of, express handlebars is not
+  to register this, we have to define a name for our engine 
+
+const app.engine("handlebars", expressHbs());
+app.set("view engine", "handlebars");
+app.set("view engine", "pug");
+app.set("views", "views");
 
 
+CONVERTING OUR PROJECT TO HANDLEBARS
+
+Extension name which only applies to the layout and not to all files
 
 
-
+// WORKING WITH EJS
 
 
 
