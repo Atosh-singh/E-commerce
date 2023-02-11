@@ -154,7 +154,25 @@ Extension name which only applies to the layout and not to all files
 
 
 // WORKING WITH EJS
+Now ejs is a templating engine which is just like pug, supported out of the box so we don't need
 
+to register the engine as we did it with handlebars,
+ejs does not support layouts but we will find a solution to at least have some kind of reusability
+
+// WORKING ON THE LAYOUTS WITH PARTIALS
+	We can do this combined with a keyword offered by ejs,
+
+the include keyword which allows us to include a certain element into this page and then you close that
+
+with the normal ejs tag, without the minus.
+
+Now here in include, you simply add a string which holds the path to the file you want to include and
+
+you have to enter this path as it's seen from the file you're in,
+
+
+
+// WRAP UP
 
 
 
