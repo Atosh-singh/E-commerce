@@ -175,6 +175,314 @@ you have to enter this path as it's seen from the file you're in,
 // WRAP UP
 
 
+/// MVC  ( MODEL VIEW CONTROLLER )
+
+
+MODELS
+. Represent your data in your code
+.work with your data (e.g. save,fetch)
+                                     
+VIEWS 
+. What the user sees
+. Decoupled from your application code
+                               
+CONTROLLERS  ---- Routes   --- Split across Middleware functions
+. connecting your Models and Your Views
+. Contain the "in-between"  logic
+
+
+// ADDING CONTROLLERS
+// FINISHING THE CONTROLLERS
+
+// ADDING A PRODUCT MODEL
+
+
+// STORING DATA IN FILES VIA THE MODEL
+
+we need to be able to work with the file system,
+
+so I will import fs from the core fs module.
+
+Now that file should then also be created in special path, so I will use the path tool,
+
+the path module to construct a path that works on all operating systems.
+
+Now here in save, I will then create my path and I will do that with path join,
+
+so using the path core module, whoops,
+
+and I name this p so that I avoid namespace clashes and the path should be my root directory.
+
+you can create a read stream with this function but we can read the entire file here,
+
+
+/ and I will put my json data into it,
+
+so again I will use that json helper object
+
+and now there is the stringify find method which takes a javascript object or array and converts it
+
+into json
+
+so that this has the right format,
+
+so there I will take this products array and convert this to json
+
+and then this gets written to the file.
+
+// FETCHING DATA FROM FILES VIA MODEL
+
+// REFACTORING THE FILE STORAGE CODE
+
+// MODULE SUMMARY
+
+  MODEL => model serves the purpose
+
+of representing our data and of managing our data, saving it, fetching it, later also updating it and so
+
+on. And it doesn't matter if you manage your data in memory, files or databases,
+
+it is the model which is responsible for your data,
+
+it contains all the data related logic.
+
+VIEW => The view on the other hand is responsible for presenting it to the user, is responsible for what the
+
+user sees and it shouldn't contain too much logic which might remind you of the handlebars templating
+
+
+CONTROLLER => Connects Model and View
+	Should only make sure that the two can communicate (in both directions) 
+
+
+/// [TIMESTAMP IN DESCRIPTION]  - SSR and Client side Rendering 
+
+chrome as a browser, IT only understands HTML, CSS and JAVASCRIPT.
+
+
+
+// CLIENT SIDE RENDERING
+angular, React and plain javascript all are client side rendering
+
+Your Html css and js - it gets completely downloaded.
+
+Disadvantage - first load is heavy, but it get cached for next time.
+
+
+/// OPTIONAL : ENHANCING THE APP
+
+// Creating the shop structure
+  ***   ../   means up one level
+
+// create two new subfolder in views folder
+//  shop and admin folder
+// then add some files in shop folder- cart.ejs, index.ejs, product-detail.ejs, and product-list.ejs
+// and in admin folder we create files like - add-product.ejs, edit-product.ejs and product.ejs 
+
+
+
+/// Registering the routes
+
+when we click on add product the next function will be add through routes or links add through routes
+
+// routes helps to get path to that file through link or address
+
+//  I will add
+
+a new get route because I want to load a new page and that will just be /products.
+
+// So now we might be back to actually using a shop controller and a new admin controller so that we can
+split our logic by these two sections,
+
+// I will export a new page and that should be my get index function
+
+// We also need to load the cart and checkout pages and therefore let's go back to the shop controller
+
+// we see that the path is not defined,
+
+so what I'm missing here is that for my 404 controller, the error controller to be precise,
+
+I also need to add a path here because I try to extract that path in my navigation and therefore I
+
+also should set the path here and I can set it to /404,
+
+
+/// STORING THE PRODUCT DATA
+
+// So now we got all these fields here which we need to add a product
+
+and these are automatically added to the request which is sent to the backend because we are using regular
+
+html inputs in a form and we assigned names,
+
+so now we can extract all that data up by the names we assign to our input fields here.
+
+//and now we create a product with all that data.
+
+Now with that, in the next step, let's also extract that data and show it when we show all products.
+
+
+
+///  DISPLAYING PRODUCT DATA
+
+// Now you can press add products and right now this does not support decimal numbers, to fix this,
+
+we can change something in the add product view, there on the number input
+
+we simply have to add a step attribute and set the step to 0.01,
+
+this means you can have well two decimal places essentially and increment in this step size.
+
+/// EDITING AND DELETING PRODUCTS
+
+// a == anchor tag is used in html to add a link
+
+/// ADDING ANOTHER ITEM
+
+*****
+Attached, you find the source code for this section.
+
+When using my source code, make sure to run npm install in the extracted folder!
+
+// To get in deep with MVC
+ =----   https://developer.mozilla.org/en-US/docs/Glossary/MVC
+
+
+////  DYNAMIC ROUTES AND ADVANCE MODELS
+
+
+/// module intro
+//  Passing route Params
+//Using Query Params
+// Enhance our Models
+
+
+///Applied Changes
+What changed in the attached files?
+
+Basically, a mobile navigation (for smaller/ mobile screens) was added. Besides that, only minor things were fixed.
+
+/// ADDING THE PRODUCT ID TO THE PATH
+
+//* I'll add a new property
+
+by writing this ID
+
+and this adds a new property to the entire product object we're working on
+
+// Now we just want to make sure that we of course then also are able to handle that and extract
+
+that unique ID from the path in our routes file
+
+so that we
+
+or in the controller, so that we can load the correct product and show the details for it
+
+and that is the whole idea here.
+
+We send some information as part of the path so that we can extract all the data we need for the product
+
+
+/// EXTRACTING DYNAMIC PARAMS
+**** VERY IMPORTANT 
+
+//we can get access to it by accessing our request and then expressjs already gives us a params
+
+object on our request
+
+and on that params object, we can access our product ID and we can access product ID here because we
+
+use product ID in our route shop.js file as a name after the colon.
+
+
+
+/// *** LOADING PRODUCT DETAIL DATA
+
+//I can find it
+
+by searching products with the find method, a default javascript method,
+
+this will execute a function we pass to find on every element in the array and we'll return the element
+
+for which this function we pass returns true.
+
+So this function we pass here will get
+
+the product it's currently looking at because it executes it for all the products in the array.
+
+
+
+//// **** RENDERING PRODUCT DETAIL VIEW
+
+
+
+////**** Passing Data WITH POSt  REQUEST
+
+
+//  However here, I will send a post request right,
+
+add to cart sends a post request and this has one important implication,
+
+we can pass data in the request body.
+
+This was not possible for a get request but for post request you typically use the request body,
+
+this is also what we use when adding a product. For adding a product,
+
+we have a form and as I mentioned there when we added this the first time in the course, this automatically
+
+gives us a request which puts all the input data and so on into its body
+
+but this only works for posting data,
+
+this is not available for getting data but for posting data,
+
+//  we can also add an include add
+
+to cart ejs and put that entire code into that include here and then simply well include that include.
+
+So instead of having that code here in index.ejs, we can use the ejs tag with the minus to add include
+
+and then we go to well up one level and then into includes and then add to cart and we use that
+
+same code also in the product detail page here and also in the product list page.
+
+So there I also want to replace this form with my include.
+
+
+
+//// *****ADDING A CART MODEL
+
+// Add a new model here cart.js
+// cart is like a separate entity in our project.
+//  we have to think about how we want to manage that cart.
+
+Now obviously we want to have a cart that holds all the products that we added
+
+and we also want to group products by id and increase their quantity in case we add a product more
+
+than once.
+
+So to do all of that, I will first of all create a constructor here which allows us to create a new cart.
+
+
+//Now what we need on this cart though is a way to add and remove our products
+
+obviously. Now the problem we have is the cart itself is not really an object we'll constantly recreate,
+
+not for every new product that we add we want to have a new cart, instead there always will be
+
+a cart in our application and we just want to manage the products in there
+
+//*  I don't really add a constructor instead I'll add a static method, add product like this.
+
+Now this will take the ID of the product I want to add and the goal here will be to then fetch the
+
+old or previous cart from our file for now, analyze that and see if we already have that product,
+
+find existing product and then add new product or increase the quantity
+
+
 
 
 
