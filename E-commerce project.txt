@@ -451,6 +451,8 @@ So there I also want to replace this form with my include.
 
 
 
+
+
 //// *****ADDING A CART MODEL
 
 // Add a new model here cart.js
@@ -483,6 +485,103 @@ old or previous cart from our file for now, analyze that and see if we already h
 find existing product and then add new product or increase the quantity
 
 
+//// USING QUERY PARAMS  
+//   I want to render the same form I have for add-product.
+
+The difference will be that I want to pre-populate that form
+
+with the values of the product I wanna edit.
+
+Now, if I'm using the same HTML code in the end,
+
+it would make sense to reuse the same template.
+
+If you ever plan on using a different one,
+
+it doesn't, but here it makes sense.
+
+So what I'll do is I'll take my add-product.ejs code
+
+and move it into edit-product
+
+because I find this to be the more generic name
+
+and I'll delete the add-product.ejs file.
+
+So now we just have edit-product.ejs
+
+with all the HTML code in there that we need.
+
+// we delete the add-product.js file
+
+//But let's say we want to get an additional confirmation
+
+by ensuring that people have to pass us
+
+a so-called query parameter in the URL.
+
+A query parameter can be added to any URL
+
+by adding a question mark
+
+and then a key-value pair, separated by an equal sign,
+
+like edit equals true.
+
+And you can have multiple query parameters
+
+by separating them with ampersands.
+
+So we could also have title equals new, for example.
+
+So this is possible
+
+and this is so-called optional data.
+
+The path here, the route which gets reached
+
+is determined by the part up to the question mark.
+
+So you don't need to add any information
+
+about query parameters you might get
+
+to your routes file.
+
+These paths are not affected.
+
+But you can always check for query parameters
+
+in your controllers.
+
+So here we can check if const editMode,
+
+if this is set by going to our request
+
+and there will be a query object.
+
+This is also created and managed by Express.js.
+
+And you can access your data here
+
+by simply trying to access the keys you got
+
+in your query parameters.
+// query object is also created and managed by express.js
+
+// Important: The extracted value always is a string!  So "true" instead of true.
+
+
+
+
+//// **** PRE POPULATING THE EDIT PRODUCT PAGE WITH DATA
+
+
+
+////**** LINKING THE EDIT PRODUCT PAGE
+
+
+////****  EDiting the product Data
 
 
 
