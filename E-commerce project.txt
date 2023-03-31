@@ -585,3 +585,144 @@ in your query parameters.
 
 
 
+
+////**** ADDING THE PRODUCT-DELETE FUNCTIONALITY
+
+// now I want to delete a product. So let's add a delete method in there
+
+and what I plan on doing here is I actually want to turn this into a static method and maybe name this
+
+delete by ID, pass in an ID and then have all the logic for deleting a product in here. To do this
+
+I first of all need to find out which product to remove or update my array of products so that I can then
+
+write it back to my file.
+
+So just as in find by ID, I will call it get products from file to get all the products and in here,
+
+I then have the products array,
+
+there I now need to find the index on the product I want to delete.
+
+So I will use products and then the find method to go through all my products and find the product with
+
+the ID
+
+I'm trying to delete, this is a mechanism we did before, whoops, it should be find index though.
+
+Now this means I can update my products array such that this element is removed and actually there is
+
+even a shortcut we can use.
+
+I can create a new constant, updated products, take my existing products and not use find index but use
+
+the filter method instead. Filter
+
+also takes an anonymous function and will return me all elements as part of a new array that do match
+
+the criteria
+
+my function returns.
+
+So if this returns true,
+
+the element is kept.
+
+Now I want to keep all elements where the ID of the element is not equal to the ID I'm trying to delete
+
+because all elements where the ID is not equal should be kept
+
+around, should be part of the new array which will be the array I save
+
+back to my file.
+
+
+////**** DELETING CART ITEMS
+
+// Now by the way a little side note, it would be best if we have a callback in delete by ID so that we
+
+only redirect once we're done
+
+and the same is also true for updating
+
+by the way. There the callback in save would be best for redirecting, for now I'll not do this, later
+
+we will add this little functionality. 
+
+
+
+////**** DISPLAYING CART ITEMS ON THE CART PAGE
+
+// remember p simply is that object
+
+we passed t that cart products array on our backend code.
+
+////**** DELETE CART ITEMS
+
+////* FIXING A DELETE PRODUCT BUG
+
+
+
+//// wrap up dynanmic ROUTES AND ADVANCED MODELS
+
+// Dynamic Routing
+	* you can pass dynamic path segments by adding a ":" to the Express Router path.
+	* The name you add after ":" is the name by which you can extract the data on req.params
+	* Optional (query) parameters can also be passed (?param=value&b=2) and extracted (req.query.myParam)
+
+// More on Models
+	* A cart model was added -it holds static method only
+	* You can interact between models (e.g. delete cart item if a product is deleted)
+	* Working with files for data storage is suboptimal for bigger amounts of data
+
+
+****  https://expressjs.com/en/guide/routing.html
+
+/////////////////////////////////////////////////////////////////////////////////
+
+
+***** SQL
+
+// SQL keywords are NOT case sensitive: select is the same as SELECT
+//Some database systems require a semicolon at the end of each SQL statement.
+
+
+///*  SETTING UP MYSQL
+
+///* Connecting OUR APP TO SQL DATaBASE
+
+****
+*****
+To use SQL or to interact with SQL from inside node, we need to install a new package 
+	npm install --save mysql2
+
+	it will be a production depedendency which is crucial part of our application
+
+//* One is that we set up one connection which we can then use to run queries and we should always close
+
+the connection once we're done with a query and
+
+the downside is that we need to re-execute the code to create the connection for every new query
+
+and there will be a lot of queries because we fetch data, we write data, we delete data, creating new connections
+
+all the time quickly becomes very inefficient both in our code and also regarding the connection to
+
+the database which is established and the performance this may cost. 
+
+So a better way is to create a so-called connection pool
+So to set up such a pool, I'll create a new constant pool,
+the name is up to you and I'll use that MySQL object and there
+I will call create pool and there you also see that create connection we could use. Now I don't want
+a single connection but a pool of connections which will allow us to always reach out to it whenever
+we have a query to run and then we get a new connection from that pool which manages multiple connections
+so that we can run multiple queries simultaneously because each query needs its own connection and once
+the query is done, the connection will be handed back into the pool and it's available again for a new query
+and the pool can then be finished when our application shuts down.
+
+
+////*** Retrieving Data
+
+
+////**** FETCHING PRODUCTS
+
