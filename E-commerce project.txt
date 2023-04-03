@@ -725,4 +725,42 @@ and the pool can then be finished when our application shuts down.
 
 
 ////**** FETCHING PRODUCTS
+	// Destructuring 
+
+///** INSERTING DATA INTO DATABASE 
+
+////** FETCHING A SINGLE PRODUCT WITH THE WHERE CONDITION
+
+
+
+
+
+
+/////****** SEQUELIZE
+ Sequelize is a third party package, to be
+
+precise
+
+it's an object relational mapping library
+
+and this is a pretty long name which simply means it does all the heavy lifting, all the SQL code
+
+//*** to install sequelize
+
+ we first of all have to install sequelize and just as we installed all the other
+
+packages, we'll do this by 
+					running
+						 npm install --save sequelize 
+because this also is a production dependency,
+
+it's a core dependency of our project and then the name is sequelize, like this.
+
+// Now sequelize uses MySQL 2 behind the scenes
+
+
+//// DEFINE A MODEL
+
+
+//// SYNCING JS DEFINITION TO DATABASE
 

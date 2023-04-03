@@ -18,14 +18,6 @@ app.set("views", "views");
 const adminRoutes = require("./routes/admin.js");
 const shopRoutes = require("./routes/shop.js");
 
-db.execute("SELECT * FROM products")
-  .then((result) => {
-    console.log(result[0], result[1]);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
 //const exp = require("constants");
 
 app.use(bodyParser.urlencoded({ extended: false }));
