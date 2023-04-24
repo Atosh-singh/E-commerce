@@ -1,3 +1,4 @@
+
 Project
 
 Parsing incoming request
@@ -753,7 +754,6 @@ packages, we'll do this by
 					running
 						 npm install --save sequelize 
 because this also is a production dependency,
-
 it's a core dependency of our project and then the name is sequelize, like this.
 
 // Now sequelize uses MySQL 2 behind the scenes
@@ -764,3 +764,330 @@ it's a core dependency of our project and then the name is sequelize, like this.
 
 //// SYNCING JS DEFINITION TO DATABASE
 
+//// INSERTING DATA AND CREATING A PRODUCT
+
+
+MUST READ: findById() in Sequelize 5
+One quick note:
+With Sequelize v5, findById() (which we'll use in this course) was replaced by findByPk().
+You use it in the same way, so you can simply replace all occurrences of findById() with findByPk()
+
+
+
+///// **  GETTING A SINGLE PRODUCT WITH THE "WHERE" CONDITION
+
+//// * FETCHING ADMIN PRODUCTS
+
+////** UPDATING PRODUCTS USING SQL
+
+
+
+//// DELETING PRODUCTS
+ We get the product ID which is good, now delete by ID does not exist in a sequelize
+world, instead on the product we can call destroy and destroy allows us to destroy any product we find
+through our options here
+and these options allow us to for example add a where condition to narrow down which product to delete.
+
+
+
+
+//////**** CREATING A USER MODEL
+So it's now time to introduce more models and I will introduce a brand new model before I start working
+on the cart again,
+that new model will be my user model but
+for now we have no real authentication process, so we'll only work with one dummy user who doesn't really
+have to log in, authentication will follow later in the course but I still want to show you how you could have a user
+who did create a product and who therefore is connected to that product and at the same time, a user
+should own a cart and that cart will hold multiple products
+and this is how we can then overall connect everything.
+So I'll add a user.js file in the models folder and in there first of all, let's define a user model.
+
+
+/ We can then define a user and store the user in a user constant by calling sequelize define, I'll name the
+model user like this
+and then as an object you define the structure of the user.
+I want to have an ID for my user and the type here will be sequelize
+integer,
+
+
+///// ADDING ONE-TO-MANY RELATIONS 
+
+I'll go to my app.js file and before I sync all my data to the database, I want to define my models.
+So for this I will add more imports and I will import my product model by requiring this from the models
+file and there the product file, add a models folder in the product file and I'll import my user model from
+the user file in the models folder. With the two models imported, we can relate them and I will relate
+them here in the same place where I sync
+sequelize
+but before I sync it. Here I can basically say that a product belongs to a user.
+
+/ ** **  The one problem we have right now is that we already created the products table and therefore will
+not override it with the new information and we can ensure that it will by setting force to true.
+Of course a setting you wouldn't really use in production because you don't always want to overwrite
+your tables all the time
+but here during development, I want to reflect my new changes so I'll set this to true and therefore
+after restarting, we indeed see a couple of statements were executed.
+First of all it dropped any existing tables and then it created a new table, users with all the set up
+and then it also creates a new products table and besides adding all the fields there,
+it also defined that there is a new field, the user id field which is an integer and which is a foreign
+key that references the ID field in the users table and that on delete, it should cascade
+and on update cascade is the default.
+
+
+
+///////*****  CREATING AND MANAGING A DUMMY USER
+
+1. I will remove this force through call because I don't always want to overwrite my tables
+otherwise all our products and so on will always be gone,
+
+2. As a next step, I'll
+will register a new middleware because I want to store that user in my request so that I can use it
+from anywhere in my app conveniently.
+
+3.so we are guaranteed to find a user here. So we can find a user by id here
+
+and what do we want to do with my user in the then block then?
+
+Well I want to store it in a request.
+
+So here I will set request user equal to user and we can do that,
+
+we can simply add a new field to our request object,
+
+we should just make sure we don't overwrite an existing one, like body. But user is undefined by default,
+
+now I'm storing the user I retrieved from the database in there.
+
+40So with that, all I need to do is I need to call next here of course so that we can continue with the
+
+next step if we get our user and stored it.
+
+Now with that, we've got the user set up and retrieved, let's now make sure that we can also use it to create
+
+new products that are associated to that user.
+
+
+
+
+/////******  USING MAGIC ASSOCIATION METHODS
+
+1. we need to pass in extra information regarding our user that is associated. One way of doing this is
+that we set this new user ID field we got, keep in mind user ID was added as a database field because
+we now have a relation set up and we set this to request user ID,
+keep in mind that request user is the sequelize user object which holds both the database data there for that
+user as well as the helper methods.
+
+2. we don't manually
+
+have to set the user ID.
+We can use another cool feature of sequelize, we can use our user object as it's stored in the request and
+always keep in mind, this is a sequelize object with all the magic features and there we'll actually have
+a create product method.
+sequelize adds methods that allow us for example
+to create a new associated object.
+
+
+
+///////**** FETCHING RELATED PRODUCTS
+1.Well for get added product, there's no implication, we fetch a single product here and we can do this as before,
+we don't really care about the user here,
+you could argue that you only want to find products for the currently logged in user though. Then what
+you actually want to do is you want to use request user get products
+and there define where ID equals prods ID to also have that filter and then you can chain your normal
+then call and so on.
+
+/////*** ONE-TO-MANY AND MANY-TO-MANY RELATIONS
+
+1.Now from a relation or association
+perspective,
+a cart should belong to a user and a cart that in turn simply holds products, many products witha quantity
+associated to them.
+So actually we need more than one model
+
+2..  Well we have to keep in mind that a cart should belong
+to a single user but may hold multiple products.
+The carts table however should hold the different carts for the different users, so we'll not just need the
+carts table and model, we'll also need a new cart item.js
+file and in there,
+
+3... Now the ID of the cart to which this is related doesn't have to be added by us here because we
+will again create an association and let sequelize manage this, so it's time for some associations then.
+Let's go to the app.js file here and in there, time to add more associations besides product and user.
+
+4... Next I will add my cart here and say that this cart belongs to many products and on the other hand, a
+
+product belongs to many carts, it's a many-to-many relationship because one cart can hold multiple products
+
+and a single product can be part of multiple different carts.
+
+This only works with an intermediate table that connects them which basically stores a combination
+
+of product IDs and cart IDs
+
+and for that, I created my cart item model.
+
+4.. so something went wrong here when sequelize tried to create our tables because it looks like we got some
+
+error in one of our models.
+
+And the thing is the ID here in cart item, that should be an integer not a string, same in cart, should
+
+be an integer not a string.
+
+
+/////*** CREATING AND FETCHING A CART
+
+1.. To work with our new cart let's go to the controllers folder here and there to the shop.js file which
+
+is where we have our cart related actions. Get products get product, get index, that is all working, get
+
+cart however will not work.
+
+2.. Remember a cart is associated to products in our app.js file through belongs to many and sequelize
+
+will do the magic of looking into cart item and so on,
+
+so into this
+
+in-between table.
+
+3.. Now in the next step where I get that user, I will also create a cart by adding user create cart, like this
+
+and I don't need to pass any data in there because cart in the beginning will not hold any special
+
+data, it just needs to be there.
+
+I'll then return this and only listen in the next step
+
+where I get my cart
+
+so to say and with this now set up, you see an insert into carts call is done here
+
+
+///////*************  ADDING NEW PRODUCTS TO THE CART
+
+1. The post cart method is responsible for adding new products to the cart.
+
+2.. I'll first of all get access to the cart in exactly the same way I did it up there in get cart with request
+user get cart and then my then block,
+so I'll repeat that and then have then and thereafter also catch here
+
+3. Now the third step is that I want to find out if the product I'm trying to add is already part of the
+cart because if it is, then I just need to increase the quantity,
+if it's not I need to add it with a quantity of one.
+
+
+///////// ********************   ADDING EXISTING PRODUCTS AND RETRIEVING CART ITEMS
+
+1. So let's ensure we can see items on the cart page
+
+and the problem is that right now, this does not work because here on cart.ejs
+
+we're still accessing product data for every product we loaded but the products we have here are
+
+now just the products from our database.
+
+2. So let's make sure we also handle this case, that we add a product to the cart which is already part of the
+cart and that should of course simply increment the quantity then.
+
+
+//////***** DELETING RELATED ITEMS AND DELETING CART PRODUCTS 
+
+
+
+
+/////////**********  ADDING AN ORDER MODEL
+
+1. Now one thing is missing and that are the orders. Now
+I'll not add a real checkout flow here
+but I want to have a checkout button in my cart which will basically for now immediately move all the
+elements in this cart out of this cart,
+so clear the cart and instead create a new order, an order that is related to a couple of products and
+a user.
+
+2. Let's start with the model and for this, I'll create a new order.js file and copy my cart
+item.js file,
+move it in there,
+import sequelize,
+rename it here to order
+
+3.If we go to the app.js file where we do set up all the relations, I'll import my order here from the order, whoops,
+from the order file and I'll import my order item from the order item file
+but now if we connect the models here at the bottom, we can say that an order belongs to a user and it doesn't
+belong to many users because a single order is always belonging to one user who placed the order and the
+user may of course have many orders, like this.
+So this is not a many-to-many relationship, 
+
+
+//////////********  STORING CARTITEMS AS ORDERITEMS
+
+
+
+/////////*********  RESETTING THE CART AND FETCHING AND OUTPUTTING ORDERS
+
+1.   one thing is missing and that is that we clear the cart,
+I want to do this right after we edit the orders.
+So down there I need to work with the cart and therefore first of all, I'll store it in a new variable, fetch
+cart,
+initially it's empty
+and here once I got the cart, I'll store the cart in the fetch cart variable so that I can also use
+it down there.
+
+2. I actually show my orders and we can get rid of the checkout
+
+page here for now because we have no such step at the moment.
+
+So now let's make sure we also retrieve the orders correctly and can display them on our orders page. For
+
+this here,
+
+I'll first of all get my user
+
+and now I'm interested in the orders of this user which I can get with get orders,
+
+a magic method added by sequelize,
+
+thanks to our associations. Here we again get a promise, let's log any potential errors we get
+
+and in the then block, I know that I have my orders.
+
+This is where I want to render my orders page therefore and I will pass a new variable into that
+
+page,
+
+the orders variable which simply stores all the retrieved orders. So with that I got my orders for this
+
+user,
+
+now let's go to the respective view in the views folder,
+
+here's the orders.ejs file which always shows nothing there.
+
+
+
+//////////////***** WRAP UP
+
+SQL 
+* SQL uses strict data schemas and relations
+* You can connect your Node.js app via packages like mysql2
+*Writing SQL quaries is not directly related to Node.js and something you have to learn in addition to Node.js
+
+
+* SEQUELIZE
+
+* Instead of writing SQL quaries manually, you can use packages (ORMs) like Sequelize to focus on the Node.js code and work with native JS objects
+
+* Sequelize allows you define models and interact with the database through them 
+* You can also easily set up relations ("Associations") and interact with your related models through them
+
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////
+
+NoSQL Databases / MongoDB
